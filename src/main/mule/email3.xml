@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f9f58da5-fcfa-4f22-9348-ca429f79ce56" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="10f9d1ef-8e5c-43e9-a1fc-f75043d4b961" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="battulachrao@gmail.com" password="bchandu@2001">
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="email3Flow" doc:id="16505f3d-e46c-401a-8d5c-6448a79d01b5" >
+		<http:listener doc:name="Listener" doc:id="082c0f74-cf84-4e62-83ba-a8674b70eb17" config-ref="HTTP_Listener_config" path="/email"/>
+		<set-payload value="before mail" doc:name="Set Payload" doc:id="6701eb02-9f43-4c11-81e1-de4b635c5fde" />
+		<email:send doc:name="Send" doc:id="ceab65a1-a2f0-46ba-81ef-676012130c5b" config-ref="Email_SMTP" fromAddress="battulachrao@gmail.com" subject='"you are using mule4 SEND connector to send a mail"'>
+			<email:to-addresses >
+				<email:to-address value="sekhar200130@gmail.com" />
+			</email:to-addresses>
+			<email:body contentType="text/plain" >
+				<email:content ><![CDATA["Hello Mule4"]]></email:content>
+			</email:body>
+		</email:send>
+	</flow>
+</mule>
